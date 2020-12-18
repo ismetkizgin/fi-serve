@@ -1,0 +1,5 @@
+{% macro menuLink(label,tabName,activeClass) %}
+	<li class="tablinks {{ activeClass ? 'active': '' }}" onclick="openCity(event, '{{ tabName }}')">
+		<a>{{ label }}</a>
+	</li>
+{% endmacro %}
