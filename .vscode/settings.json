@@ -1,0 +1,8 @@
+{
+  "rest-client.environmentVariables": {
+    "local": {
+      "baseUrl": "http://localhost:5000",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOjEsIkNvbXBhbnlJRCI6MSwiVXNlclR5cGVOYW1lIjoiUm9vdCIsImlhdCI6MTYwNzQ3MjQ1MCwiZXhwIjoxNjA4MDc3MjUwfQ.zcyDbqkBULh9kbnW4VeB6NnZdnEenIgqkX8-NuGXElA"
+    }
+  }
+}
