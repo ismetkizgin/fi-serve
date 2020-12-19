@@ -1,0 +1,7 @@
+POST {{baseUrl}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "EmailAddress": "fi@project.com",
+    "Password": "passwordd"
+}
