@@ -1,7 +1,7 @@
 version: "3"
 services:
   serve:
-    container_name: cl-serve
+    container_name: fi-serve
     build:
       context: .
       dockerfile: ./docker/Dockerfile
@@ -16,16 +16,16 @@ services:
       DB_HOST: database
       DB_USER: root
       DB_PASS: root
-      DB_DATABASE: cl_db
+      DB_DATABASE: fi_db
     links:
       - database
   database:
-    container_name: sta-db
+    container_name: fi-db
     image: mariadb:10.3
     ports:
       - 3305:3306
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: cl_db
+      MYSQL_DATABASE: fi_db
       MYSQL_USER: root@localhost
       MYSQL_PASSWORD: root
