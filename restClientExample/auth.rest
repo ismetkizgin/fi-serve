@@ -3,5 +3,11 @@ Content-Type: application/json
 
 {
     "EmailAddress": "fi@project.com",
-    "Password": "passwordd"
+    "Password": "password"
 }
+
+###
+
+GET {{baseUrl}}/token-decode HTTP/1.1
+Content-Type: application/json
+token: {{token}}

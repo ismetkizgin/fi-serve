@@ -1,9 +1,9 @@
-const { FadabHelper } = require("fadab-mysql-helper");
+const { FadabHelper } = require('fadab-mysql-helper');
 
 class CommonTransactions extends FadabHelper {
-  constructor(args) {
+  constructor(tableName) {
     super();
-    this.baseTable = args.tableName;
+    this.baseTable = tableName;
   }
 }
 

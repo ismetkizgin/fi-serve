@@ -2,9 +2,10 @@ const router = require('express')();
 const jwt = require('jsonwebtoken');
 const TransactionsFactory = require('../database/transactionFactory');
 const { validators, verifyToken } = require('../middleware');
-const commonTransactions = TransactionsFactory.creating('commonTransactions', {
-  tableName: 'tblUser'
-});
+const commonTransactions = TransactionsFactory.creating(
+  'commonTransactions',
+  'tblUser'
+);
 const authValidator = validators.authValidator;
 const tokenControl = verifyToken.tokenControl;
 const HttpStatusCode = require('http-status-codes');
@@ -32,6 +33,10 @@ router.post('/login', authValidator.login, async (req, res) => {
       .status(error.status || HttpStatusCode.INTERNAL_SERVER_ERROR)
       .send(error.message);
   }
+});
+
+router.get('/token-decode', tokenControl, async (req, res) => {
+  res.json(req.decode);
 });
 
 module.exports = router;
