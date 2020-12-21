@@ -1,5 +1,5 @@
-const joi = require("joi");
-const HttpStatusCode = require("http-status-codes");
+const joi = require('joi');
+const HttpStatusCode = require('http-status-codes');
 
 class AuthValidator {
   constructor() {}
@@ -9,14 +9,29 @@ class AuthValidator {
       await joi
         .object({
           EmailAddress: joi.string().email().max(100).required(),
-          Password: joi.string().max(99).required(),
+          Password: joi.string().max(99).required()
         })
         .validateAsync(req.body);
       next();
     } catch (error) {
       res
         .status(HttpStatusCode.EXPECTATION_FAILED)
-        .send("Must have correct data entry.");
+        .send('Must have correct data entry.');
+    }
+  }
+
+  static async delete(req, res, next) {
+    try {
+      await joi
+        .object({
+          Password: joi.string().max(99).required()
+        })
+        .validateAsync(req.body);
+      next();
+    } catch (error) {
+      res
+        .status(HttpStatusCode.EXPECTATION_FAILED)
+        .send('Must have correct data entry.');
     }
   }
 }

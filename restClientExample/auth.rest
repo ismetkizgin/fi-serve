@@ -8,6 +8,16 @@ Content-Type: application/json
 
 ###
 
+DELETE {{baseUrl}}/my-account HTTP/1.1
+Content-Type: application/json
+token: {{token}}
+
+{
+    "Password": "password"
+}
+
+###
+
 GET {{baseUrl}}/token-decode HTTP/1.1
 Content-Type: application/json
 token: {{token}}

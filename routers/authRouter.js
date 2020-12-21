@@ -28,12 +28,36 @@ router.post('/login', authValidator.login, async (req, res) => {
     });
     res.json({ result, token });
   } catch (error) {
-    console.error(error);
     res
       .status(error.status || HttpStatusCode.INTERNAL_SERVER_ERROR)
       .send(error.message);
   }
 });
+
+router.delete(
+  '/my-account',
+  tokenControl,
+  authValidator.delete,
+  async (req, res) => {
+    try {
+      const result = await commonTransactions.deleteAsync(
+        Object.assign(req.body, {
+          Id: req.decode.UserID
+        })
+      );
+
+      if (!result.affectedRows) {
+        res.status(HttpStatusCode.BAD_REQUEST).send('Wrong password !');
+        return;
+      }
+      res.json('Your account has been deleted.');
+    } catch (error) {
+      res
+        .status(error.status || HttpStatusCode.INTERNAL_SERVER_ERROR)
+        .send(error.message);
+    }
+  }
+);
 
 router.get('/token-decode', tokenControl, async (req, res) => {
   res.json(req.decode);
