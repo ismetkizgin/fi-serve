@@ -59,6 +59,30 @@ router.delete(
   }
 );
 
+router.put(
+  '/my-account',
+  tokenControl,
+  authValidator.update,
+  async (req, res) => {
+    try {
+      const result = await commonTransactions.updateAsync(req.body, {
+        Id: req.decode.UserID,
+        Password: req.body.Password
+      });
+
+      if (!result.affectedRows) {
+        res.status(HttpStatusCode.BAD_REQUEST).send('Wrong password !');
+        return;
+      }
+      res.json('Your account information has been successfully edited.');
+    } catch (error) {
+      res
+        .status(error.status || HttpStatusCode.INTERNAL_SERVER_ERROR)
+        .send(error.message);
+    }
+  }
+);
+
 router.get('/token-decode', tokenControl, async (req, res) => {
   res.json(req.decode);
 });

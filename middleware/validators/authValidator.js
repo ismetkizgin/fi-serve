@@ -34,6 +34,33 @@ class AuthValidator {
         .send('Must have correct data entry.');
     }
   }
+
+  static async update(req, res, next) {
+    try {
+      await joi
+        .object({
+          FirstName: joi
+            .string()
+            .min(3)
+            .max(100)
+            .pattern(new RegExp('^[A-Za-zÇçÖöŞşÜüĞğİı ]+$')),
+          LastName: joi
+            .string()
+            .min(2)
+            .max(100)
+            .pattern(new RegExp('^[A-Za-zÇçÖöŞşÜüĞğİı ]+$')),
+          Password: joi.string().max(99).required(),
+          EmailAddress: joi.string().min(3).max(200).required()
+        })
+        .validateAsync(req.body);
+      next();
+    } catch (error) {
+      console.log(error);
+      res
+        .status(HttpStatusCode.EXPECTATION_FAILED)
+        .send('Must have correct data entry.');
+    }
+  }
 }
 
 module.exports = AuthValidator;
