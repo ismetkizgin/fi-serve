@@ -83,6 +83,32 @@ router.put(
   }
 );
 
+router.put(
+  '/change-password',
+  tokenControl,
+  authValidator.changePassword,
+  async (req, res) => {
+    try {
+      const result = await commonTransactions.updateAsync(
+        { Password: req.body.NewPassword },
+        {
+          Id: req.decode.UserID,
+          Password: req.body.Password
+        }
+      );
+      if (!result.affectedRows) {
+        res.status(HttpStatusCode.BAD_REQUEST).send('Wrong password !');
+        return;
+      }
+      res.json('Your password has been changed.');
+    } catch (error) {
+      res
+        .status(error.status || HttpStatusCode.INTERNAL_SERVER_ERROR)
+        .send(error.message);
+    }
+  }
+);
+
 router.get('/token-decode', tokenControl, async (req, res) => {
   res.json(req.decode);
 });
