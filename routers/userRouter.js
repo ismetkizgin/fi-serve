@@ -1,10 +1,7 @@
 const router = require('express')();
 const TransactionsFactory = require('../database/transactionFactory');
 const { validators, verifyToken, authorization } = require('../middleware');
-const userTransactions = TransactionsFactory.creating(
-  'commonTransactions',
-  'tblUser'
-);
+const userTransactions = TransactionsFactory.creating('userTransactions');
 const userValidator = validators.userValidator;
 const tokenControl = verifyToken.tokenControl;
 const authControl = authorization.authControl;
@@ -36,7 +33,7 @@ router.get(
   userValidator.paramId,
   async (req, res) => {
     try {
-      const result = await userTransactions.findOneAsync(req.params);
+      const result = await userTransactions.findAsync(req.params);
       res.json(result || {});
     } catch (err) {
       res

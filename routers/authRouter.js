@@ -2,10 +2,7 @@ const router = require('express')();
 const jwt = require('jsonwebtoken');
 const TransactionsFactory = require('../database/transactionFactory');
 const { validators, verifyToken } = require('../middleware');
-const commonTransactions = TransactionsFactory.creating(
-  'commonTransactions',
-  'tblUser'
-);
+const commonTransactions = TransactionsFactory.creating('userTransactions');
 const authValidator = validators.authValidator;
 const tokenControl = verifyToken.tokenControl;
 const HttpStatusCode = require('http-status-codes');
