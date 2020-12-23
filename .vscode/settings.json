@@ -3,6 +3,10 @@
     "local": {
       "baseUrl": "http://localhost:5000",
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOjEsIlVzZXJUeXBlTmFtZSI6IlJvb3QiLCJpYXQiOjE2MDg0Njk5NzEsImV4cCI6MTYwOTA3NDc3MX0.0v8MZhF-PWy_vMSBtRSaxmAZsz9LuZlvQHCulRv9Qeg"
+    },
+    "stage": {
+      "baseUrl": "https://fi-serve.herokuapp.com",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOjEsIlVzZXJUeXBlTmFtZSI6IlJvb3QiLCJpYXQiOjE2MDg0Njk5NzEsImV4cCI6MTYwOTA3NDc3MX0.0v8MZhF-PWy_vMSBtRSaxmAZsz9LuZlvQHCulRv9Qeg"
     }
   }
 }
