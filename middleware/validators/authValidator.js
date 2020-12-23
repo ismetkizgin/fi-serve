@@ -14,9 +14,7 @@ class AuthValidator {
         .validateAsync(req.body);
       next();
     } catch (error) {
-      res
-        .status(HttpStatusCode.EXPECTATION_FAILED)
-        .send('Must have correct data entry.');
+      res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }
 
@@ -29,9 +27,7 @@ class AuthValidator {
         .validateAsync(req.body);
       next();
     } catch (error) {
-      res
-        .status(HttpStatusCode.EXPECTATION_FAILED)
-        .send('Must have correct data entry.');
+      res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }
 
@@ -56,9 +52,7 @@ class AuthValidator {
       next();
     } catch (error) {
       console.log(error);
-      res
-        .status(HttpStatusCode.EXPECTATION_FAILED)
-        .send('Must have correct data entry.');
+      res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }
 
@@ -72,9 +66,7 @@ class AuthValidator {
         .validateAsync(req.body);
       next();
     } catch (error) {
-      res
-        .status(HttpStatusCode.EXPECTATION_FAILED)
-        .send('Must have correct data entry.');
+      res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }
 
@@ -87,9 +79,7 @@ class AuthValidator {
         .validateAsync(req.body);
       next();
     } catch (error) {
-      res
-        .status(HttpStatusCode.EXPECTATION_FAILED)
-        .send('Must have correct data entry.');
+      res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }
 }

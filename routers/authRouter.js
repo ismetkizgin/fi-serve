@@ -9,15 +9,16 @@ const commonTransactions = TransactionsFactory.creating(
 const authValidator = validators.authValidator;
 const tokenControl = verifyToken.tokenControl;
 const HttpStatusCode = require('http-status-codes');
+const { errorSender } = require('../utils');
 
 router.post('/login', authValidator.login, async (req, res) => {
   try {
     const result = await commonTransactions.findOneAsync(req.body);
     if (!result)
-      throw {
-        status: HttpStatusCode.BAD_REQUEST,
-        message: 'Check your email address or password !'
-      };
+      throw errorSender.errorObject(
+        HttpStatusCode.BAD_REQUEST,
+        'Check your email address or password !'
+      );
 
     const payload = {
       UserID: result.Id,
@@ -46,10 +47,11 @@ router.delete(
         })
       );
 
-      if (!result.affectedRows) {
-        res.status(HttpStatusCode.BAD_REQUEST).send('Wrong password !');
-        return;
-      }
+      if (!result.affectedRows)
+        throw errorSender.errorObject(
+          HttpStatusCode.BAD_REQUEST,
+          'Wrong password !'
+        );
       res.json('Your account has been deleted.');
     } catch (error) {
       res
@@ -70,10 +72,11 @@ router.put(
         Password: req.body.Password
       });
 
-      if (!result.affectedRows) {
-        res.status(HttpStatusCode.BAD_REQUEST).send('Wrong password !');
-        return;
-      }
+      if (!result.affectedRows)
+        throw errorSender.errorObject(
+          HttpStatusCode.BAD_REQUEST,
+          'Wrong password !'
+        );
       res.json('Your account information has been successfully edited.');
     } catch (error) {
       res
@@ -96,10 +99,11 @@ router.put(
           Password: req.body.Password
         }
       );
-      if (!result.affectedRows) {
-        res.status(HttpStatusCode.BAD_REQUEST).send('Wrong password !');
-        return;
-      }
+      if (!result.affectedRows)
+        throw errorSender.errorObject(
+          HttpStatusCode.BAD_REQUEST,
+          'Wrong password !'
+        );
       res.json('Your password has been changed.');
     } catch (error) {
       res
@@ -119,13 +123,14 @@ router.post(
         Id: req.decode.UserID,
         Password: req.body.Password
       });
-      if (!result) {
-        res.status(HttpStatusCode.BAD_REQUEST).send('Wrong password !');
-        return;
-      }
+      if (!result)
+        throw errorSender.errorObject(
+          HttpStatusCode.BAD_REQUEST,
+          'Wrong password !'
+        );
+
       res.json('Password is correct.');
     } catch (error) {
-      console.log(error);
       res
         .status(error.status || HttpStatusCode.INTERNAL_SERVER_ERROR)
         .send(error.message);

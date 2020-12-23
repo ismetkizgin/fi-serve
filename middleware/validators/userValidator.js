@@ -14,9 +14,7 @@ class UserValidator extends CommonUserValidator {
         .validateAsync({ Id: parseInt(req.params.Id) });
       next();
     } catch (error) {
-      res
-        .status(HttpStatusCode.EXPECTATION_FAILED)
-        .send('Must have correct data entry.');
+      res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }
 
@@ -39,9 +37,7 @@ class UserValidator extends CommonUserValidator {
         .validateAsync(req.body);
       next();
     } catch (error) {
-      res
-        .status(HttpStatusCode.EXPECTATION_FAILED)
-        .send('Must have correct data entry.');
+      res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }
 
@@ -66,9 +62,7 @@ class UserValidator extends CommonUserValidator {
         .validateAsync(req.body);
       next();
     } catch (error) {
-      res
-        .status(HttpStatusCode.EXPECTATION_FAILED)
-        .send('Must have correct data entry.');
+      res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }
 }
