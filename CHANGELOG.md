@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.2.0 (2020-12-24)
+
+
+### Features
+
+* added database script ([3bb05d7](https://github.com/ismetkizgin/cl-serve/commit/3bb05d7a536fc22d85719ceb883ac6f8cf63db37))
+* added delete my account router ([c735534](https://github.com/ismetkizgin/cl-serve/commit/c735534726067edb19e6b014ef2589345cd7d58c))
+* added login router ([1897045](https://github.com/ismetkizgin/cl-serve/commit/1897045a6549fcd4bb207a6133b25a32ee954660))
+* added my account update router ([c982878](https://github.com/ismetkizgin/cl-serve/commit/c9828782ea49756f71e3c4ee745d1a809eebf47c))
+* added password change router ([9ba0265](https://github.com/ismetkizgin/cl-serve/commit/9ba0265513f184f18c4e18d0b2fa509c73df07bc))
+* added password control router ([4b01665](https://github.com/ismetkizgin/cl-serve/commit/4b0166535d8057aa64515857f9a830998541b096))
+* added token decode router ([524f616](https://github.com/ismetkizgin/cl-serve/commit/524f6162bbc38270aa3f2736a0b3ad9c4bd0327c))
+* added user routers ([1d27a9f](https://github.com/ismetkizgin/cl-serve/commit/1d27a9f0ac334ef0c19e1a27169080822cca2217))
+* fab-mysql-helper library was implemented ([8c07308](https://github.com/ismetkizgin/cl-serve/commit/8c073089922323d14c210a6950e5ab9816c8270d))
+
+
+### Bug Fixes
+
+* fix for fadab mysql helper package version ([d95371a](https://github.com/ismetkizgin/cl-serve/commit/d95371a5910f47d05d421ff58f73f5593a1d97b9))
+* fix for validators ([9eaa9cb](https://github.com/ismetkizgin/cl-serve/commit/9eaa9cb28fabaca6c112e3c9ff41ba5e730fdee8))
+
 ## [1.1.0](https://github.com/ismetkizgin/cl-serve/compare/v1.0.0...v1.1.0) (2020-10-10)
 
 
