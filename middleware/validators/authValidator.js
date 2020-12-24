@@ -13,7 +13,7 @@ class AuthValidator {
         })
         .validateAsync(req.body);
       next();
-    } catch (error) {
+    } catch (err) {
       res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }
@@ -26,7 +26,7 @@ class AuthValidator {
         })
         .validateAsync(req.body);
       next();
-    } catch (error) {
+    } catch (err) {
       res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }
@@ -50,8 +50,8 @@ class AuthValidator {
         })
         .validateAsync(req.body);
       next();
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
       res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }
@@ -65,7 +65,8 @@ class AuthValidator {
         })
         .validateAsync(req.body);
       next();
-    } catch (error) {
+    } catch (err) {
+      console.log('Sadasdas');
       res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }
@@ -78,7 +79,7 @@ class AuthValidator {
         })
         .validateAsync(req.body);
       next();
-    } catch (error) {
+    } catch (err) {
       res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }

@@ -14,7 +14,7 @@ class UserValidator {
         .with('offset', 'limit')
         .validateAsync(req.query);
       next();
-    } catch (error) {
+    } catch (err) {
       res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }
@@ -27,7 +27,7 @@ class UserValidator {
         })
         .validateAsync(req.body);
       next();
-    } catch (error) {
+    } catch (err) {
       res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }
@@ -40,7 +40,7 @@ class UserValidator {
         })
         .validateAsync({ Id: parseInt(req.params.Id) });
       next();
-    } catch (error) {
+    } catch (err) {
       res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }
