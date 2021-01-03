@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/ismetkizgin/cl-serve/compare/v1.2.0...v1.3.0) (2021-01-03)
+
+
+### Features
+
+* added project routers ([2114823](https://github.com/ismetkizgin/cl-serve/commit/211482363d503d0271a1403ea4109a6136ef90ac))
+
 ## 1.2.0 (2020-12-24)
 
 
