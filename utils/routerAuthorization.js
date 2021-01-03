@@ -14,5 +14,22 @@ module.exports = {
     POST: {
       Authorize: [Roles.Root, Roles.Administrator]
     }
+  },
+  project: {
+    GET: {
+      Authorize: [Roles.Root, Roles.Administrator, Roles.Manager],
+      Individual_Transactions: [Roles.Manager, Roles.Staff]
+    },
+    PUT: {
+      Authorize: [Roles.Root, Roles.Administrator, Roles.Manager],
+      Individual_Transactions: [Roles.Manager]
+    },
+    POST: {
+      Authorize: [Roles.Root, Roles.Administrator, Roles.Manager]
+    },
+    DELETE: {
+      Authorize: [Roles.Root, Roles.Administrator, Roles.Manager],
+      Individual_Transactions: [Roles.Manager]
+    }
   }
 };

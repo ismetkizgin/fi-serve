@@ -44,6 +44,21 @@ class Authorization {
         .send(error.message);
     }
   }
+
+  static async limitedAuthControl(req, res, next) {
+    try {
+      const auth =
+        routerAuthorization[req.route.path.split('/')[1].replace('-', '_')][
+          req.method
+        ].Individual_Transactions;
+      if (!auth || auth.indexOf(req.decode.UserTypeName) != -1)
+        req.Individual_Transactions = true;
+      else req.Individual_Transactions = false;
+      next();
+    } catch (error) {
+      res.status(error.status || 500).send(error.message);
+    }
+  }
 }
 
 module.exports = Authorization;

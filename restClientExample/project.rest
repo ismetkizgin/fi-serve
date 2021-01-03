@@ -1,0 +1,42 @@
+GET {{baseUrl}}/project HTTP/1.1
+Content-Type: application/json
+token: {{token}}
+
+###
+
+GET {{baseUrl}}/project/2 HTTP/1.1
+Content-Type: application/json
+token: {{token}}
+
+###
+
+POST {{baseUrl}}/project HTTP/1.1
+Content-Type: application/json
+token: {{token}}
+
+{
+    "ProjectName": "Test Project",
+    "Description": "Hello Word"
+}
+
+###
+
+PUT {{baseUrl}}/project HTTP/1.1
+Content-Type: application/json
+token: {{token}}
+
+{
+    "Id": 4,
+    "ProjectName": "Test Project",
+    "Description": "Hello Word"
+}
+
+###
+
+DELETE  {{baseUrl}}/project HTTP/1.1
+Content-Type: application/json
+token: {{token}}
+
+{
+    "Id": "4"
+}
