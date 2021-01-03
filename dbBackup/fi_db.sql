@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost:3306
--- Üretim Zamanı: 19 Ara 2020, 23:26:34
+-- Üretim Zamanı: 03 Oca 2021, 03:06:49
 -- Sunucu sürümü: 8.0.22-0ubuntu0.20.04.3
 -- PHP Sürümü: 7.4.13
 
@@ -22,6 +22,15 @@ SET time_zone = "+00:00";
 -- Veritabanı: `fi_db`
 --
 
+DELIMITER $$
+--
+-- Yordamlar
+--
+CREATE PROCEDURE `prUserProjectList` (IN `UserID` INT)  NO SQL
+SELECT tblProject.* FROM tblProjectUser LEFT JOIN tblProject ON tblProjectUser.ProjectID=tblProject.Id WHERE tblProjectUser.UserID=UserID$$
+
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -31,8 +40,22 @@ SET time_zone = "+00:00";
 CREATE TABLE `tblProject` (
   `Id` int NOT NULL,
   `ProjectName` varchar(200) NOT NULL,
-  `Description` text NOT NULL
+  `Description` text NOT NULL,
+  `UserID` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `tblProjectUser`
+--
+
+CREATE TABLE `tblProjectUser` (
+  `Id` int NOT NULL,
+  `ProjectID` int NOT NULL,
+  `UserID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 -- --------------------------------------------------------
 
@@ -127,6 +150,29 @@ INSERT INTO `tblUserType` (`UserTypeName`, `UserTypeNumber`) VALUES
 ('Root', 777),
 ('Staff', 444);
 
+-- --------------------------------------------------------
+
+--
+-- Görünüm yapısı durumu `vwUserList`
+-- (Asıl görünüm için aşağıya bakın)
+--
+CREATE TABLE `vwUserList` (
+`EmailAddress` varchar(200)
+,`FirstName` varchar(100)
+,`Id` int
+,`LastName` varchar(100)
+,`UserTypeName` varchar(25)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Görünüm yapısı `vwUserList`
+--
+DROP TABLE IF EXISTS `vwUserList`;
+
+CREATE VIEW `vwUserList`  AS  select `tblUser`.`Id` AS `Id`,`tblUser`.`FirstName` AS `FirstName`,`tblUser`.`LastName` AS `LastName`,`tblUser`.`EmailAddress` AS `EmailAddress`,`tblUser`.`UserTypeName` AS `UserTypeName` from `tblUser` ;
+
 --
 -- Dökümü yapılmış tablolar için indeksler
 --
@@ -135,7 +181,16 @@ INSERT INTO `tblUserType` (`UserTypeName`, `UserTypeNumber`) VALUES
 -- Tablo için indeksler `tblProject`
 --
 ALTER TABLE `tblProject`
-  ADD PRIMARY KEY (`Id`);
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `UserID` (`UserID`);
+
+--
+-- Tablo için indeksler `tblProjectUser`
+--
+ALTER TABLE `tblProjectUser`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `ProjectID` (`ProjectID`),
+  ADD KEY `UserID` (`UserID`);
 
 --
 -- Tablo için indeksler `tblTask`
@@ -166,6 +221,7 @@ ALTER TABLE `tblTaskStatus`
 --
 ALTER TABLE `tblUser`
   ADD PRIMARY KEY (`Id`),
+  ADD UNIQUE KEY `EmailAddress` (`EmailAddress`),
   ADD KEY `UserTypeName` (`UserTypeName`);
 
 --
@@ -182,7 +238,13 @@ ALTER TABLE `tblUserType`
 -- Tablo için AUTO_INCREMENT değeri `tblProject`
 --
 ALTER TABLE `tblProject`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `tblProjectUser`
+--
+ALTER TABLE `tblProjectUser`
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `tblTask`
@@ -200,11 +262,24 @@ ALTER TABLE `tblTaskLog`
 -- Tablo için AUTO_INCREMENT değeri `tblUser`
 --
 ALTER TABLE `tblUser`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Dökümü yapılmış tablolar için kısıtlamalar
 --
+
+--
+-- Tablo kısıtlamaları `tblProject`
+--
+ALTER TABLE `tblProject`
+  ADD CONSTRAINT `tblProject_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `tblUser` (`Id`) ON DELETE CASCADE;
+
+--
+-- Tablo kısıtlamaları `tblProjectUser`
+--
+ALTER TABLE `tblProjectUser`
+  ADD CONSTRAINT `tblProjectUser_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `tblUser` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tblProjectUser_ibfk_2` FOREIGN KEY (`ProjectID`) REFERENCES `tblProject` (`Id`) ON DELETE CASCADE;
 
 --
 -- Tablo kısıtlamaları `tblTask`
