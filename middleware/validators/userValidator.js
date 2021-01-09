@@ -3,7 +3,9 @@ const HttpStatusCode = require('http-status-codes');
 const CommonValidator = require('./commonValidator');
 
 class UserValidator extends CommonValidator {
-  constructor() {}
+  constructor() {
+    super();
+  }
 
   static async find(req, res, next) {
     try {
