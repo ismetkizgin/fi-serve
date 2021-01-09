@@ -117,6 +117,11 @@ router.delete(
             HttpStatusCode.UNAUTHORIZED,
             'Unauthorized transaction !'
           );
+        else
+          throw errorSender.errorObject(
+            HttpStatusCode.BAD_REQUEST,
+            'You cannot delete yourself because you are the owner of the project.'
+          );
       }
 
       const result = await projectUserTransactions.deleteAsync(req.body);
