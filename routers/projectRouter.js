@@ -7,6 +7,9 @@ const limitedAuthControl = authorization.limitedAuthControl;
 const HttpStatusCode = require('http-status-codes');
 const { errorSender } = require('../utils');
 const projectTransactions = TransactionsFactory.creating('projectTransactions');
+const projectUserTransactions = TransactionsFactory.creating(
+  'projectUserTransactions'
+);
 const projectValidator = validators.projectValidator;
 
 router.get(
@@ -76,6 +79,10 @@ router.post(
     try {
       req.body.UserID = req.decode.UserID;
       const result = await projectTransactions.insertAsync(req.body);
+      projectUserTransactions.insertAsync({
+        ProjectID: result.insertId,
+        UserID: req.decode.UserID
+      });
       if (!result.affectedRows)
         throw errorSender.errorObject(
           HttpStatusCode.INTERNAL_SERVER_ERROR,
