@@ -1,6 +1,6 @@
 const { FadabHelper, queryAsync } = require('fadab-mysql-helper');
 
-class UserTransactions extends FadabHelper {
+class ProjectTransactions extends FadabHelper {
   constructor() {
     super();
     this.baseTable = 'tblProject';
@@ -11,4 +11,4 @@ class UserTransactions extends FadabHelper {
   }
 }
 
-module.exports = UserTransactions;
+module.exports = ProjectTransactions;

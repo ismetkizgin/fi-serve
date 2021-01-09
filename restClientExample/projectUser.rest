@@ -1,0 +1,24 @@
+GET {{baseUrl}}/project-user/3 HTTP/1.1
+Content-Type: application/json
+token: {{token}}
+
+###
+
+POST {{baseUrl}}/project-user HTTP/1.1
+Content-Type: application/json
+token: {{token}}
+
+{
+    "ProjectID": 1,
+    "EmailAddress": "fii@project.com"
+}
+
+###
+
+DELETE {{baseUrl}}/project-user HTTP/1.1
+Content-Type: application/json
+token: {{token}}
+
+{
+    "Id": 13
+}

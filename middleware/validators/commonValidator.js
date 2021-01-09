@@ -1,7 +1,7 @@
 const joi = require('joi');
 const HttpStatusCode = require('http-status-codes');
 
-class UserValidator {
+class CommonValidator {
   constructor() {}
 
   static async limitAndOffset(req, res, next) {
@@ -46,4 +46,4 @@ class UserValidator {
   }
 }
 
-module.exports = UserValidator;
+module.exports = CommonValidator;

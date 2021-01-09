@@ -2,16 +2,15 @@ const joi = require('joi');
 const HttpStatusCode = require('http-status-codes');
 const CommonValidator = require('./commonValidator');
 
-class ProjectValidator extends CommonValidator {
+class ProjectUserValidator extends CommonValidator {
   constructor() {}
 
-  static async update(req, res, next) {
+  static async insert(req, res, next) {
     try {
       await joi
         .object({
-          Id: joi.number().required(),
-          ProjectName: joi.string().max(200),
-          Description: joi.string().max(350)
+          ProjectID: joi.number().required(),
+          EmailAddress: joi.string().email().required()
         })
         .validateAsync(req.body);
       next();
@@ -20,12 +19,12 @@ class ProjectValidator extends CommonValidator {
     }
   }
 
-  static async insert(req, res, next) {
+  static async delete(req, res, next) {
     try {
       await joi
         .object({
-          ProjectName: joi.string().max(200).required(),
-          Description: joi.string().max(350).required()
+          Id: joi.number().required(),
+          ProjectID: joi.number().required()
         })
         .validateAsync(req.body);
       next();
@@ -35,4 +34,4 @@ class ProjectValidator extends CommonValidator {
   }
 }
 
-module.exports = ProjectValidator;
+module.exports = ProjectUserValidator;

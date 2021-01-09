@@ -1,8 +1,8 @@
 const joi = require('joi');
 const HttpStatusCode = require('http-status-codes');
-const CommonUserValidator = require('./commonValidator');
+const CommonValidator = require('./commonValidator');
 
-class UserValidator extends CommonUserValidator {
+class UserValidator extends CommonValidator {
   constructor() {}
 
   static async find(req, res, next) {

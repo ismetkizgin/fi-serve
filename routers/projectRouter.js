@@ -78,7 +78,7 @@ router.post(
       const result = await projectTransactions.insertAsync(req.body);
       if (!result.affectedRows)
         throw errorSender.errorObject(
-          HttpStatusCode.INTERNAL_SERVER_ERROROR,
+          HttpStatusCode.INTERNAL_SERVER_ERROR,
           'There was a problem adding the project !'
         );
       res.json('Project successfully added.');
@@ -111,7 +111,7 @@ router.put(
         findProject.UserID != req.decode.UserID
       )
         throw errorSender.errorObject(
-          HttpStatusCode.INTERNAL_SERVER_ERROROR,
+          HttpStatusCode.UNAUTHORIZED,
           'Unauthorized transaction !'
         );
 
@@ -146,7 +146,7 @@ router.delete(
         findProject.UserID != req.decode.UserID
       )
         throw errorSender.errorObject(
-          HttpStatusCode.INTERNAL_SERVER_ERROROR,
+          HttpStatusCode.UNAUTHORIZED,
           'Unauthorized transaction !'
         );
 
