@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/ismetkizgin/cl-serve/compare/v1.4.0...v1.5.0) (2021-01-10)
+
+
+### Features
+
+* added task routers ([b944670](https://github.com/ismetkizgin/cl-serve/commit/b944670f4bbc0e16d09641cb979d55af2b3c3118))
+
 ## [1.4.0](https://github.com/ismetkizgin/cl-serve/compare/v1.3.0...v1.4.0) (2021-01-09)
 
 
