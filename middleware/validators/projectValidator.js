@@ -12,8 +12,8 @@ class ProjectValidator extends CommonValidator {
       await joi
         .object({
           Id: joi.number().required(),
-          ProjectName: joi.string().max(200),
-          Description: joi.string().max(350)
+          ProjectName: joi.string().max(50),
+          Description: joi.string().max(100)
         })
         .validateAsync(req.body);
       next();
@@ -26,8 +26,8 @@ class ProjectValidator extends CommonValidator {
     try {
       await joi
         .object({
-          ProjectName: joi.string().max(200).required(),
-          Description: joi.string().max(350).required()
+          ProjectName: joi.string().max(50).required(),
+          Description: joi.string().max(100).required()
         })
         .validateAsync(req.body);
       next();
