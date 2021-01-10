@@ -45,5 +45,13 @@ module.exports = {
       Authorize: [Roles.Root, Roles.Administrator, Roles.Manager],
       Individual_Transactions: [Roles.Manager]
     }
+  },
+  task: {
+    POST: {
+      Individual_Transactions: [Roles.Manager, Roles.Staff]
+    },
+    PUT: {
+      Individual_Transactions: [Roles.Manager, Roles.Staff]
+    }
   }
 };

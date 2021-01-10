@@ -10,6 +10,7 @@ app.use(routers.authRouter);
 app.use(routers.userRouter);
 app.use(routers.projectRouter);
 app.use(routers.projectUserRouter);
+app.use(routers.taskRouter);
 
 app.use((req, res, next) => {
   res.send('404 NOT FOUND');

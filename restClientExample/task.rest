@@ -1,0 +1,32 @@
+POST {{baseUrl}}/task HTTP/1.1
+Content-Type: application/json
+token: {{token}}
+
+{
+    "TaskName": "Test Task",
+    "Description": "Task Description",
+    "DueDate": "12.12.2020",
+    "UserID": "23",
+    "ProjectID": "1"
+}
+
+###
+
+PUT {{baseUrl}}/task HTTP/1.1
+Content-Type: application/json
+token: {{token}}
+
+{
+    "Id": "1",
+    "TaskName": "Test Task",
+    "Description": "Task Description",
+    "DueDate": "12.12.2020",
+    "UserID": "1",
+    "ProjectID": "1"
+}
+
+###
+
+GET {{baseUrl}}/task/1 HTTP/1.1
+Content-Type: application/json
+token: {{token}}
