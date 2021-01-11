@@ -73,7 +73,7 @@ router.put(
       if (!task)
         throw errorSender.errorObject(
           HttpStatusCode.GONE,
-          'There is no such project ID in the system !'
+          'There is no such task ID in the system !'
         );
 
       const projectUsers = await projectUserTransactions.selectAsync({
