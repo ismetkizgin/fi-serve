@@ -22,7 +22,7 @@ token: {{token}}
     "Description": "Task Description",
     "DueDate": "12.12.2020",
     "UserID": "1",
-    "ProjectID": "1"
+    "TaskStatusName": "TEST"
 }
 
 ###

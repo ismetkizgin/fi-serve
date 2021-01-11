@@ -15,7 +15,6 @@ class TaskValidator extends CommonValidator {
           TaskName: joi.string().max(150),
           Description: joi.string().empty(''),
           DueDate: joi.date(),
-          ProjectID: joi.number().required(),
           UserID: joi.number(),
           TaskStatusName: joi.string().max(50)
         })

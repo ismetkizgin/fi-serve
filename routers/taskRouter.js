@@ -7,6 +7,7 @@ const limitedAuthControl = authorization.limitedAuthControl;
 const HttpStatusCode = require('http-status-codes');
 const { errorSender } = require('../utils');
 const taskTransactions = TransactionsFactory.creating('taskTransactions');
+const taskLogTransactions = TransactionsFactory.creating('taskLogTransactions');
 const projectUserTransactions = TransactionsFactory.creating(
   'projectUserTransactions'
 );
@@ -65,15 +66,19 @@ router.put(
   taskValidator.update,
   async (req, res) => {
     try {
-      const projectUsers = await projectUserTransactions.selectAsync({
-        ProjectID: req.body.ProjectID
+      const task = await taskTransactions.findOneAsync({
+        Id: req.body.Id
       });
 
-      if (!projectUsers.length)
+      if (!task)
         throw errorSender.errorObject(
           HttpStatusCode.GONE,
           'There is no such project ID in the system !'
         );
+
+      const projectUsers = await projectUserTransactions.selectAsync({
+        ProjectID: task.ProjectID
+      });
 
       if (
         (req.body.UserID &&
@@ -97,6 +102,16 @@ router.put(
           HttpStatusCode.INTERNAL_SERVER_ERROR,
           'There was a problem adding the task !'
         );
+
+      if (
+        req.body.TaskStatusName &&
+        task.TaskStatusName != req.body.TaskStatusName
+      )
+        await taskLogTransactions.insertAsync({
+          TaskID: req.body.Id,
+          UserID: req.decode.UserID,
+          TaskStatusName: req.body.TaskStatusName
+        });
 
       res.json('Task successfully added.');
     } catch (err) {
