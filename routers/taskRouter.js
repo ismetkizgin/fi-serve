@@ -2,7 +2,6 @@ const router = require('express')();
 const TransactionsFactory = require('../database/transactionFactory');
 const { validators, verifyToken, authorization } = require('../middleware');
 const tokenControl = verifyToken.tokenControl;
-const authControl = authorization.authControl;
 const limitedAuthControl = authorization.limitedAuthControl;
 const HttpStatusCode = require('http-status-codes');
 const { errorSender } = require('../utils');
@@ -31,12 +30,13 @@ router.post(
         );
 
       if (
-        !projectUsers.find(
+        req.Individual_Transactions &&
+        (!projectUsers.find(
           projectUser => projectUser.UserID == req.body.UserID
         ) ||
-        !projectUsers.find(
-          projectUser => projectUser.UserID == req.decode.UserID
-        )
+          !projectUsers.find(
+            projectUser => projectUser.UserID == req.decode.UserID
+          ))
       )
         throw errorSender.errorObject(
           HttpStatusCode.UNAUTHORIZED,
@@ -81,13 +81,14 @@ router.put(
       });
 
       if (
-        (req.body.UserID &&
+        req.Individual_Transactions &&
+        ((req.body.UserID &&
           !projectUsers.find(
             projectUser => projectUser.UserID == req.body.UserID
           )) ||
-        !projectUsers.find(
-          projectUser => projectUser.UserID == req.decode.UserID
-        )
+          !projectUsers.find(
+            projectUser => projectUser.UserID == req.decode.UserID
+          ))
       )
         throw errorSender.errorObject(
           HttpStatusCode.UNAUTHORIZED,
