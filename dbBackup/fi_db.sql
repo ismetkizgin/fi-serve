@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost:3306
--- Üretim Zamanı: 11 Oca 2021, 02:20:28
+-- Üretim Zamanı: 12 Oca 2021, 00:39:07
 -- Sunucu sürümü: 8.0.22-0ubuntu0.20.04.3
 -- PHP Sürümü: 7.4.13
 
@@ -128,9 +128,7 @@ CREATE TABLE `tblUser` (
 --
 
 INSERT INTO `tblUser` (`Id`, `FirstName`, `LastName`, `EmailAddress`, `Password`, `UserTypeName`) VALUES
-(1, 'ismet', 'kizgin', 'fi@project.com', 'password', 'Root'),
-(23, 'ismet', 'kizgin', 'fii@project.com', 'password', 'Manager');
-
+(1, 'ismet', 'kizgin', 'fi@project.com', 'password', 'Root');
 -- --------------------------------------------------------
 
 --
@@ -159,12 +157,12 @@ INSERT INTO `tblUserType` (`UserTypeName`, `UserTypeNumber`) VALUES
 -- (Asıl görünüm için aşağıya bakın)
 --
 CREATE TABLE `vwProjectUserList` (
-`Id` int
+`EmailAddress` varchar(200)
+,`FirstName` varchar(100)
+,`Id` int
+,`LastName` varchar(100)
 ,`ProjectID` int
 ,`UserID` int
-,`FirstName` varchar(100)
-,`LastName` varchar(100)
-,`EmailAddress` varchar(200)
 ,`UserTypeName` varchar(25)
 );
 
@@ -175,15 +173,30 @@ CREATE TABLE `vwProjectUserList` (
 -- (Asıl görünüm için aşağıya bakın)
 --
 CREATE TABLE `vwTaskList` (
-`Id` int
-,`TaskName` varchar(150)
+`CreatedDate` datetime
 ,`Description` text
-,`CreatedDate` datetime
 ,`DueDate` datetime
-,`UserID` int
+,`Id` int
 ,`ProjectID` int
+,`TaskName` varchar(150)
 ,`TaskStatusName` varchar(50)
+,`UserID` int
 ,`UserName` varchar(200)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Görünüm yapısı durumu `vwTaskLogList`
+-- (Asıl görünüm için aşağıya bakın)
+--
+CREATE TABLE `vwTaskLogList` (
+`CreatedDate` datetime
+,`Id` int
+,`TaskID` int
+,`TaskStatusName` varchar(50)
+,`UserID` int
+,`UserName` varchar(201)
 );
 
 -- --------------------------------------------------------
@@ -193,10 +206,10 @@ CREATE TABLE `vwTaskList` (
 -- (Asıl görünüm için aşağıya bakın)
 --
 CREATE TABLE `vwUserList` (
-`Id` int
+`EmailAddress` varchar(200)
 ,`FirstName` varchar(100)
+,`Id` int
 ,`LastName` varchar(100)
-,`EmailAddress` varchar(200)
 ,`UserTypeName` varchar(25)
 );
 
@@ -217,6 +230,15 @@ CREATE VIEW `vwProjectUserList`  AS  select `tblProjectUser`.`Id` AS `Id`,`tblPr
 DROP TABLE IF EXISTS `vwTaskList`;
 
 CREATE VIEW `vwTaskList`  AS  select `tblTask`.`Id` AS `Id`,`tblTask`.`TaskName` AS `TaskName`,`tblTask`.`Description` AS `Description`,`tblTask`.`CreatedDate` AS `CreatedDate`,`tblTask`.`DueDate` AS `DueDate`,`tblTask`.`UserID` AS `UserID`,`tblTask`.`ProjectID` AS `ProjectID`,`tblTask`.`TaskStatusName` AS `TaskStatusName`,concat(`tblUser`.`FirstName`,`tblUser`.`LastName`) AS `UserName` from (`tblTask` join `tblUser` on((`tblTask`.`UserID` = `tblUser`.`Id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Görünüm yapısı `vwTaskLogList`
+--
+DROP TABLE IF EXISTS `vwTaskLogList`;
+
+CREATE VIEW `vwTaskLogList`  AS  select `tblTaskLog`.`Id` AS `Id`,`tblTaskLog`.`UserID` AS `UserID`,`tblTaskLog`.`TaskID` AS `TaskID`,`tblTaskLog`.`TaskStatusName` AS `TaskStatusName`,`tblTaskLog`.`CreatedDate` AS `CreatedDate`,concat(`tblUser`.`FirstName`,' ',`tblUser`.`LastName`) AS `UserName` from (`tblTaskLog` join `tblUser` on((`tblUser`.`Id` = `tblTaskLog`.`UserID`))) ;
 
 -- --------------------------------------------------------
 
@@ -305,13 +327,13 @@ ALTER TABLE `tblProjectUser`
 -- Tablo için AUTO_INCREMENT değeri `tblTask`
 --
 ALTER TABLE `tblTask`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `tblTaskLog`
 --
 ALTER TABLE `tblTaskLog`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `tblUser`
