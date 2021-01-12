@@ -53,5 +53,10 @@ module.exports = {
     PUT: {
       Individual_Transactions: [Roles.Manager, Roles.Staff]
     }
+  },
+  task_log: {
+    GET: {
+      Individual_Transactions: [Roles.Manager, Roles.Staff]
+    }
   }
 };
