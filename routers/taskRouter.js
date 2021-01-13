@@ -43,6 +43,7 @@ router.post(
           'Unauthorized transaction !'
         );
 
+      req.body.DueDate = new Date(req.body.DueDate);
       const result = await taskTransactions.insertAsync(req.body);
       if (!result.affectedRows)
         throw errorSender.errorObject(
@@ -95,6 +96,7 @@ router.put(
           'Unauthorized transaction !'
         );
 
+      if (req.body.DueDate) req.body.DueDate = new Date(req.body.DueDate);
       const result = await taskTransactions.updateAsync(req.body, {
         Id: req.body.Id
       });
@@ -137,7 +139,11 @@ router.get('/task/:ProjectID', tokenControl, async (req, res) => {
       );
 
     const result = await taskTransactions.selectAsync({
-      where: { ProjectID: req.params.ProjectID }
+      where: { ProjectID: req.params.ProjectID },
+      orderBy: {
+        fields: 'Id',
+        ranking: 'DESC'
+      }
     });
     res.json(result);
   } catch (err) {
