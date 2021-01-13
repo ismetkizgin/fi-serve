@@ -108,21 +108,19 @@ router.delete(
           'There is no such project user ID in the system !'
         );
 
-      if (req.Individual_Transactions) {
-        const project = await projectTransactions.findOneAsync({
-          Id: projectUser.ProjectID
-        });
-        if (project.UserID != req.decode.UserID)
-          throw errorSender.errorObject(
-            HttpStatusCode.UNAUTHORIZED,
-            'Unauthorized transaction !'
-          );
-        else
-          throw errorSender.errorObject(
-            HttpStatusCode.BAD_REQUEST,
-            'You cannot delete yourself because you are the owner of the project.'
-          );
-      }
+      const project = await projectTransactions.findOneAsync({
+        Id: projectUser.ProjectID
+      });
+      if (req.Individual_Transactions && project.UserID != req.decode.UserID)
+        throw errorSender.errorObject(
+          HttpStatusCode.UNAUTHORIZED,
+          'Unauthorized transaction !'
+        );
+      else if (project.UserID == projectUser.UserID)
+        throw errorSender.errorObject(
+          HttpStatusCode.BAD_REQUEST,
+          'You cannot delete yourself because you are the owner of the project.'
+        );
 
       const result = await projectUserTransactions.deleteAsync(req.body);
 
