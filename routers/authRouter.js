@@ -144,7 +144,7 @@ router.post('/sign-up', authValidator.signUp, async (req, res) => {
     const result = await userTransactions.insertAsync(req.body);
     if (!result.affectedRows)
       throw errorSender.errorObject(
-        HttpStatusCode.INTERNAL_SERVER_ERROROR,
+        HttpStatusCode.INTERNAL_SERVER_ERROR,
         'There was a problem adding the user !'
       );
     res.json('User registered.');

@@ -101,7 +101,7 @@ router.post(
       const result = await userTransactions.insertAsync(req.body);
       if (!result.affectedRows)
         throw errorSender.errorObject(
-          HttpStatusCode.INTERNAL_SERVER_ERROROR,
+          HttpStatusCode.INTERNAL_SERVER_ERROR,
           'There was a problem adding the user !'
         );
       res.json('User registered.');
@@ -112,7 +112,7 @@ router.post(
           .send('Email address is already registered in the system !');
       else
         res
-          .status(err.status || HttpStatusCode.INTERNAL_SERVER_ERROROR)
+          .status(err.status || HttpStatusCode.INTERNAL_SERVER_ERROR)
           .send(err.message);
     }
   }
