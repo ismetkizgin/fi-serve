@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost:3306
--- Üretim Zamanı: 12 Oca 2021, 00:39:07
+-- Üretim Zamanı: 15 Oca 2021, 01:58:07
 -- Sunucu sürümü: 8.0.22-0ubuntu0.20.04.3
 -- PHP Sürümü: 7.4.13
 
@@ -27,7 +27,7 @@ DELIMITER $$
 -- Yordamlar
 --
 CREATE PROCEDURE `prUserProjectList` (IN `UserID` INT)  NO SQL
-SELECT tblProject.* FROM tblProjectUser LEFT JOIN tblProject ON tblProjectUser.ProjectID=tblProject.Id WHERE tblProjectUser.UserID=UserID$$
+SELECT tblProject.* FROM tblProjectUser LEFT JOIN tblProject ON tblProjectUser.ProjectID=tblProject.Id WHERE tblProjectUser.UserID=UserID ORDER BY ID DESC$$
 
 DELIMITER ;
 
@@ -120,7 +120,7 @@ CREATE TABLE `tblUser` (
   `LastName` varchar(100) NOT NULL,
   `EmailAddress` varchar(200) NOT NULL,
   `Password` varchar(99) NOT NULL,
-  `UserTypeName` varchar(25) NOT NULL
+  `UserTypeName` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'Staff'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -128,8 +128,7 @@ CREATE TABLE `tblUser` (
 --
 
 INSERT INTO `tblUser` (`Id`, `FirstName`, `LastName`, `EmailAddress`, `Password`, `UserTypeName`) VALUES
-(1, 'ismet', 'kizgin', 'fi@project.com', 'password', 'Root');
--- --------------------------------------------------------
+(1, 'ismet', 'kizgin', 'fi@project.com', 'password', 'Root');-----------------------------------------------------
 
 --
 -- Tablo için tablo yapısı `tblUserType`
@@ -157,12 +156,12 @@ INSERT INTO `tblUserType` (`UserTypeName`, `UserTypeNumber`) VALUES
 -- (Asıl görünüm için aşağıya bakın)
 --
 CREATE TABLE `vwProjectUserList` (
-`EmailAddress` varchar(200)
-,`FirstName` varchar(100)
-,`Id` int
-,`LastName` varchar(100)
+`Id` int
 ,`ProjectID` int
 ,`UserID` int
+,`FirstName` varchar(100)
+,`LastName` varchar(100)
+,`EmailAddress` varchar(200)
 ,`UserTypeName` varchar(25)
 );
 
@@ -173,14 +172,14 @@ CREATE TABLE `vwProjectUserList` (
 -- (Asıl görünüm için aşağıya bakın)
 --
 CREATE TABLE `vwTaskList` (
-`CreatedDate` datetime
-,`Description` text
-,`DueDate` datetime
-,`Id` int
-,`ProjectID` int
+`Id` int
 ,`TaskName` varchar(150)
-,`TaskStatusName` varchar(50)
+,`Description` text
+,`CreatedDate` datetime
+,`DueDate` datetime
 ,`UserID` int
+,`ProjectID` int
+,`TaskStatusName` varchar(50)
 ,`UserName` varchar(200)
 );
 
@@ -191,11 +190,11 @@ CREATE TABLE `vwTaskList` (
 -- (Asıl görünüm için aşağıya bakın)
 --
 CREATE TABLE `vwTaskLogList` (
-`CreatedDate` datetime
-,`Id` int
+`Id` int
+,`UserID` int
 ,`TaskID` int
 ,`TaskStatusName` varchar(50)
-,`UserID` int
+,`CreatedDate` datetime
 ,`UserName` varchar(201)
 );
 
@@ -206,10 +205,10 @@ CREATE TABLE `vwTaskLogList` (
 -- (Asıl görünüm için aşağıya bakın)
 --
 CREATE TABLE `vwUserList` (
-`EmailAddress` varchar(200)
+`Id` int
 ,`FirstName` varchar(100)
-,`Id` int
 ,`LastName` varchar(100)
+,`EmailAddress` varchar(200)
 ,`UserTypeName` varchar(25)
 );
 
@@ -315,31 +314,31 @@ ALTER TABLE `tblUserType`
 -- Tablo için AUTO_INCREMENT değeri `tblProject`
 --
 ALTER TABLE `tblProject`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `tblProjectUser`
 --
 ALTER TABLE `tblProjectUser`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `tblTask`
 --
 ALTER TABLE `tblTask`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `tblTaskLog`
 --
 ALTER TABLE `tblTaskLog`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `tblUser`
 --
 ALTER TABLE `tblUser`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Dökümü yapılmış tablolar için kısıtlamalar

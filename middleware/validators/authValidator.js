@@ -83,6 +83,30 @@ class AuthValidator {
       res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
     }
   }
+
+  static async signUp(req, res, next) {
+    try {
+      await joi
+        .object({
+          FirstName: joi
+            .string()
+            .max(100)
+            .pattern(new RegExp('^[A-Za-zÇçÖöŞşÜüĞğİı ]+$'))
+            .required(),
+          LastName: joi
+            .string()
+            .max(100)
+            .pattern(new RegExp('^[A-Za-zÇçÖöŞşÜüĞğİı ]+$'))
+            .required(),
+          EmailAddress: joi.string().max(100).email().required(),
+          Password: joi.string().max(99).required()
+        })
+        .validateAsync(req.body);
+      next();
+    } catch (err) {
+      res.status(HttpStatusCode.EXPECTATION_FAILED).send(err.message);
+    }
+  }
 }
 
 module.exports = AuthValidator;

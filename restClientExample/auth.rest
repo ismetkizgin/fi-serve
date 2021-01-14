@@ -55,3 +55,16 @@ token: {{token}}
 GET {{baseUrl}}/token-decode HTTP/1.1
 Content-Type: application/json
 token: {{token}}
+
+###
+
+POST {{baseUrl}}/sign-up HTTP/1.1
+Content-Type: application/json
+token: {{token}}
+
+{
+    "FirstName": "ismet",
+    "LastName": "kizgin",
+    "EmailAddress": "fi@project.com",
+    "Password": "password"
+}

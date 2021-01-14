@@ -2,7 +2,7 @@ const router = require('express')();
 const jwt = require('jsonwebtoken');
 const TransactionsFactory = require('../database/transactionFactory');
 const { validators, verifyToken } = require('../middleware');
-const commonTransactions = TransactionsFactory.creating('userTransactions');
+const userTransactions = TransactionsFactory.creating('userTransactions');
 const authValidator = validators.authValidator;
 const tokenControl = verifyToken.tokenControl;
 const HttpStatusCode = require('http-status-codes');
@@ -10,7 +10,7 @@ const { errorSender } = require('../utils');
 
 router.post('/login', authValidator.login, async (req, res) => {
   try {
-    const result = await commonTransactions.findOneAsync(req.body);
+    const result = await userTransactions.findOneAsync(req.body);
     if (!result)
       throw errorSender.errorObject(
         HttpStatusCode.BAD_REQUEST,
@@ -38,7 +38,7 @@ router.delete(
   authValidator.delete,
   async (req, res) => {
     try {
-      const result = await commonTransactions.deleteAsync(
+      const result = await userTransactions.deleteAsync(
         Object.assign(req.body, {
           Id: req.decode.UserID
         })
@@ -64,7 +64,7 @@ router.put(
   authValidator.update,
   async (req, res) => {
     try {
-      const result = await commonTransactions.updateAsync(req.body, {
+      const result = await userTransactions.updateAsync(req.body, {
         Id: req.decode.UserID,
         Password: req.body.Password
       });
@@ -89,7 +89,7 @@ router.put(
   authValidator.changePassword,
   async (req, res) => {
     try {
-      const result = await commonTransactions.updateAsync(
+      const result = await userTransactions.updateAsync(
         { Password: req.body.NewPassword },
         {
           Id: req.decode.UserID,
@@ -116,7 +116,7 @@ router.post(
   authValidator.passwordControl,
   async (req, res) => {
     try {
-      const result = await commonTransactions.findOneAsync({
+      const result = await userTransactions.findOneAsync({
         Id: req.decode.UserID,
         Password: req.body.Password
       });
@@ -137,6 +137,27 @@ router.post(
 
 router.get('/token-decode', tokenControl, async (req, res) => {
   res.json(req.decode);
+});
+
+router.post('/sign-up', authValidator.signUp, async (req, res) => {
+  try {
+    const result = await userTransactions.insertAsync(req.body);
+    if (!result.affectedRows)
+      throw errorSender.errorObject(
+        HttpStatusCode.INTERNAL_SERVER_ERROROR,
+        'There was a problem adding the user !'
+      );
+    res.json('User registered.');
+  } catch (err) {
+    if (err.errno === 1062)
+      res
+        .status(HttpStatusCode.CONFLICT)
+        .send('Email address is already registered in the system !');
+    else
+      res
+        .status(err.status || HttpStatusCode.INTERNAL_SERVER_ERROR)
+        .send(err.message);
+  }
 });
 
 module.exports = router;
