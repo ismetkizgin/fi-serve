@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/ismetkizgin/cl-serve/compare/v1.6.0...v1.7.0) (2021-01-14)
+
+
+### Features
+
+* added sign up router ([4b5e515](https://github.com/ismetkizgin/cl-serve/commit/4b5e515bb599cbf61dba67aaae25163f4a4bc9d5))
+
+
+### Bug Fixes
+
+* fix for error status code ([037bbf0](https://github.com/ismetkizgin/cl-serve/commit/037bbf06940726e43654043d735b3c8b36916441))
+* fix for project user delete router ([d46641e](https://github.com/ismetkizgin/cl-serve/commit/d46641e810b7077e82b5c243b2756cf36b19cb17))
+* fix for task log list router ([cd2e10e](https://github.com/ismetkizgin/cl-serve/commit/cd2e10e4681a1b373f729c4b2fb3cc2b062e8c02))
+* fix for task routers ([b2cada5](https://github.com/ismetkizgin/cl-serve/commit/b2cada58bbef70230b596f80fff15fd849d29943))
+
 ## [1.6.0](https://github.com/ismetkizgin/cl-serve/compare/v1.5.0...v1.6.0) (2021-01-11)
 
 
