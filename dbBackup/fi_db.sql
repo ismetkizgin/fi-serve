@@ -27,7 +27,7 @@ DELIMITER $$
 -- Yordamlar
 --
 CREATE PROCEDURE `prUserProjectList` (IN `UserID` INT)  NO SQL
-SELECT tblProject.*, vwProjectDueDate.DueDate FROM tblProjectUser LEFT JOIN tblProject ON tblProjectUser.ProjectID=tblProject.Id INNER JOIN vwProjectDueDate ON vwProjectDueDate.ProjectID=tblProjectUser.ProjectID WHERE tblProjectUser.UserID=UserID ORDER BY ID DESC$$
+SELECT tblProject.*, vwProjectDueDate.DueDate FROM tblProjectUser LEFT JOIN tblProject ON tblProjectUser.ProjectID=tblProject.Id LEFT JOIN vwProjectDueDate ON vwProjectDueDate.ProjectID=tblProjectUser.ProjectID WHERE tblProjectUser.UserID=UserID ORDER BY ID DESC$$
 
 DELIMITER ;
 
