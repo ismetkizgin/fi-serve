@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost:3306
--- Üretim Zamanı: 15 Oca 2021, 01:58:07
+-- Üretim Zamanı: 16 Oca 2021, 14:09:28
 -- Sunucu sürümü: 8.0.22-0ubuntu0.20.04.3
 -- PHP Sürümü: 7.4.13
 
@@ -27,7 +27,7 @@ DELIMITER $$
 -- Yordamlar
 --
 CREATE PROCEDURE `prUserProjectList` (IN `UserID` INT)  NO SQL
-SELECT tblProject.* FROM tblProjectUser LEFT JOIN tblProject ON tblProjectUser.ProjectID=tblProject.Id WHERE tblProjectUser.UserID=UserID ORDER BY ID DESC$$
+SELECT tblProject.*, vwProjectDueDate.DueDate FROM tblProjectUser LEFT JOIN tblProject ON tblProjectUser.ProjectID=tblProject.Id INNER JOIN vwProjectDueDate ON vwProjectDueDate.ProjectID=tblProjectUser.ProjectID WHERE tblProjectUser.UserID=UserID ORDER BY ID DESC$$
 
 DELIMITER ;
 
@@ -128,7 +128,7 @@ CREATE TABLE `tblUser` (
 --
 
 INSERT INTO `tblUser` (`Id`, `FirstName`, `LastName`, `EmailAddress`, `Password`, `UserTypeName`) VALUES
-(1, 'ismet', 'kizgin', 'fi@project.com', 'password', 'Root');-----------------------------------------------------
+(1, 'ismet', 'kizgin', 'fi@project.com', 'password', 'Root');
 
 --
 -- Tablo için tablo yapısı `tblUserType`
@@ -152,16 +152,27 @@ INSERT INTO `tblUserType` (`UserTypeName`, `UserTypeNumber`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Görünüm yapısı durumu `vwProjectDueDate`
+-- (Asıl görünüm için aşağıya bakın)
+--
+CREATE TABLE `vwProjectDueDate` (
+`DueDate` datetime
+,`ProjectID` int
+);
+
+-- --------------------------------------------------------
+
+--
 -- Görünüm yapısı durumu `vwProjectUserList`
 -- (Asıl görünüm için aşağıya bakın)
 --
 CREATE TABLE `vwProjectUserList` (
-`Id` int
+`EmailAddress` varchar(200)
+,`FirstName` varchar(100)
+,`Id` int
+,`LastName` varchar(100)
 ,`ProjectID` int
 ,`UserID` int
-,`FirstName` varchar(100)
-,`LastName` varchar(100)
-,`EmailAddress` varchar(200)
 ,`UserTypeName` varchar(25)
 );
 
@@ -172,14 +183,14 @@ CREATE TABLE `vwProjectUserList` (
 -- (Asıl görünüm için aşağıya bakın)
 --
 CREATE TABLE `vwTaskList` (
-`Id` int
-,`TaskName` varchar(150)
+`CreatedDate` datetime
 ,`Description` text
-,`CreatedDate` datetime
 ,`DueDate` datetime
-,`UserID` int
+,`Id` int
 ,`ProjectID` int
+,`TaskName` varchar(150)
 ,`TaskStatusName` varchar(50)
+,`UserID` int
 ,`UserName` varchar(200)
 );
 
@@ -190,11 +201,11 @@ CREATE TABLE `vwTaskList` (
 -- (Asıl görünüm için aşağıya bakın)
 --
 CREATE TABLE `vwTaskLogList` (
-`Id` int
-,`UserID` int
+`CreatedDate` datetime
+,`Id` int
 ,`TaskID` int
 ,`TaskStatusName` varchar(50)
-,`CreatedDate` datetime
+,`UserID` int
 ,`UserName` varchar(201)
 );
 
@@ -205,12 +216,21 @@ CREATE TABLE `vwTaskLogList` (
 -- (Asıl görünüm için aşağıya bakın)
 --
 CREATE TABLE `vwUserList` (
-`Id` int
+`EmailAddress` varchar(200)
 ,`FirstName` varchar(100)
+,`Id` int
 ,`LastName` varchar(100)
-,`EmailAddress` varchar(200)
 ,`UserTypeName` varchar(25)
 );
+
+-- --------------------------------------------------------
+
+--
+-- Görünüm yapısı `vwProjectDueDate`
+--
+DROP TABLE IF EXISTS `vwProjectDueDate`;
+
+CREATE VIEW `vwProjectDueDate`  AS  select `tblTask`.`ProjectID` AS `ProjectID`,max(`tblTask`.`DueDate`) AS `DueDate` from `tblTask` where (`tblTask`.`TaskStatusName` <> 'DONE') group by `tblTask`.`ProjectID` ;
 
 -- --------------------------------------------------------
 
@@ -314,7 +334,7 @@ ALTER TABLE `tblUserType`
 -- Tablo için AUTO_INCREMENT değeri `tblProject`
 --
 ALTER TABLE `tblProject`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `tblProjectUser`
@@ -326,7 +346,7 @@ ALTER TABLE `tblProjectUser`
 -- Tablo için AUTO_INCREMENT değeri `tblTask`
 --
 ALTER TABLE `tblTask`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `tblTaskLog`
@@ -338,7 +358,7 @@ ALTER TABLE `tblTaskLog`
 -- Tablo için AUTO_INCREMENT değeri `tblUser`
 --
 ALTER TABLE `tblUser`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Dökümü yapılmış tablolar için kısıtlamalar
@@ -362,7 +382,8 @@ ALTER TABLE `tblProjectUser`
 --
 ALTER TABLE `tblTask`
   ADD CONSTRAINT `tblTask_ibfk_1` FOREIGN KEY (`ProjectID`) REFERENCES `tblProject` (`Id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `tblTask_ibfk_2` FOREIGN KEY (`UserID`) REFERENCES `tblUser` (`Id`);
+  ADD CONSTRAINT `tblTask_ibfk_2` FOREIGN KEY (`UserID`) REFERENCES `tblUser` (`Id`),
+  ADD CONSTRAINT `tblTask_ibfk_3` FOREIGN KEY (`TaskStatusName`) REFERENCES `tblTaskStatus` (`TaskStatusName`);
 
 --
 -- Tablo kısıtlamaları `tblTaskLog`
