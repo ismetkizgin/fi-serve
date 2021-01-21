@@ -1,4 +1,4 @@
-# Starting Kit REST API Project
+# FI REST API Project
 
 Deploy methods of Starting Kit REST API project are given below.
 
